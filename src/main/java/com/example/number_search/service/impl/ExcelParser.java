@@ -1,5 +1,6 @@
 package com.example.number_search.service.impl;
 
+import com.example.number_search.exception.FileParsingException;
 import com.example.number_search.service.FileParser;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -18,7 +19,7 @@ import java.util.List;
 public class ExcelParser implements FileParser {
 
     @Override
-    public List<Integer> parse(String filePath) {
+    public List<Integer> parse(String filePath) throws FileParsingException {
         List<Integer> numbers = new ArrayList<>();
 
         try (FileInputStream fis = new FileInputStream(filePath);
@@ -35,7 +36,7 @@ public class ExcelParser implements FileParser {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error reading Excel file: " + e.getMessage());
+            throw new FileParsingException(filePath, e);
         }
 
         return numbers;

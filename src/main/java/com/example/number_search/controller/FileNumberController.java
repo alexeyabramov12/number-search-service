@@ -10,11 +10,13 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/file")
@@ -35,7 +37,7 @@ public class FileNumberController {
     @GetMapping("/nth-max")
     public ResponseEntity<?> getNthMax(
             @RequestParam @NotBlank(message = "File path must not be empty")
-            @Parameter(description = "Full path to the file", example = "/data/numbers.xlsx") String filePath,
+            @Parameter(description = "Full path to the file", example = "data/numbers.xlsx") String filePath,
 
             @RequestParam @Min(value = 1, message = "N must be greater than 0")
             @Parameter(description = "The position of the maximum number to find", example = "3") int n

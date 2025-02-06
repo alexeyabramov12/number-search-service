@@ -1,5 +1,6 @@
 package com.example.number_search.service.impl;
 
+import com.example.number_search.exception.FileParsingException;
 import com.example.number_search.service.FileParser;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -92,13 +93,17 @@ class ExcelParserTest {
     }
 
     @Test
-    @DisplayName("Should throw RuntimeException when file does not exist")
-    void givenNonExistentFile_whenParse_thenThrowException() {
+    @DisplayName("Should throw FileParsingException when file does not exist")
+    void givenNonExistentFile_whenParse_thenThrowException(@TempDir Path tempDir) {
         String invalidPath = tempDir.resolve("missing.xlsx").toString();
 
-        Exception exception = assertThrows(RuntimeException.class, () -> excelParser.parse(invalidPath));
+        FileParsingException exception = assertThrows(FileParsingException.class, () -> excelParser.parse(invalidPath));
 
-        assertTrue(exception.getMessage().contains("Error reading Excel file"));
+        assertTrue(exception.getMessage().contains(invalidPath),
+                "Exception message should contain the file path");
+
+        assertTrue(exception.getMessage().toLowerCase().contains("error reading"),
+                "Exception message should indicate an error reading the file");
     }
 
     // Helper method to create a row with a numeric value in column A (index 0)

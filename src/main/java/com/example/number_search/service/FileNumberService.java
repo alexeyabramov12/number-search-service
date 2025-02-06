@@ -1,5 +1,8 @@
 package com.example.number_search.service;
 
+import com.example.number_search.exception.FileParsingException;
+import com.example.number_search.exception.NotEnoughNumbersException;
+
 /**
  * Service interface for processing numerical data from a file.
  * <p>
@@ -20,12 +23,12 @@ public interface FileNumberService {
      * </p>
      *
      * @param filePath the absolute or relative path to the file
-     * @param n the position of the maximum number to retrieve (1-based index)
+     * @param n        the position of the maximum number to retrieve (1-based index)
      * @return the N-th maximum number found in the file
-     * @throws IllegalArgumentException if the file does not exist,
-     *                                  contains insufficient numbers,
-     *                                  or if {@code n} is invalid
-     * @throws RuntimeException if an error occurs while reading the file
+     * @throws FileParsingException      if an error occurs while reading or parsing the file
+     *                                   (e.g., file not found, corrupted format, I/O error)
+     * @throws NotEnoughNumbersException if the file contains fewer than N numbers,
+     *                                   making it impossible to determine the requested maximum value
      */
-    int findNthMax(String filePath, int n);
+    int findNthMax(String filePath, int n) throws FileParsingException, NotEnoughNumbersException;
 }

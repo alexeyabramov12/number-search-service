@@ -1,5 +1,7 @@
 package com.example.number_search.service;
 
+import com.example.number_search.exception.FileParsingException;
+
 import java.util.List;
 
 /**
@@ -24,7 +26,9 @@ public interface FileParser {
      *
      * @param filePath the absolute or relative path to the file
      * @return a list of integers extracted from the file
-     * @throws RuntimeException if an error occurs while reading or parsing the file
+     * @throws FileParsingException if an error occurs while reading, opening,
+     *                              or parsing the file (e.g., file not found, incorrect format,
+     *                              or I/O error)
      */
-    List<Integer> parse(String filePath);
+    List<Integer> parse(String filePath) throws FileParsingException;
 }
